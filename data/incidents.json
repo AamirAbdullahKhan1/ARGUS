@@ -1,0 +1,24 @@
+{
+  "incidents": [
+    {
+      "incident_id": "INC-001",
+      "event_type": "suspicious_login",
+      "username": "admin",
+      "source_ip": "192.168.1.105",
+      "timestamp": "2026-09-29T09:30:00",
+      "description": "Multiple failed login attempts followed by a successful login.",
+      "severity": "high",
+      "status": "new"
+    },
+    {
+      "incident_id": "INC-002",
+      "event_type": "unusual_login",
+      "username": "john",
+      "source_ip": "192.168.1.110",
+      "timestamp": "2026-09-29T10:15:00",
+      "description": "Login detected from an unfamiliar IP address.",
+      "severity": "medium",
+      "status": "new"
+    }
+  ]
+}

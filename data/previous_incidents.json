@@ -1,0 +1,24 @@
+{
+  "previous_incidents": [
+    {
+      "incident_id": "HIST-001",
+      "event_type": "suspicious_login",
+      "username": "admin",
+      "source_ip": "192.168.1.105",
+      "timestamp": "2026-09-20T14:30:00",
+      "severity": "high",
+      "resolution": "escalated",
+      "description": "Repeated login failures followed by an unusual successful login."
+    },
+    {
+      "incident_id": "HIST-002",
+      "event_type": "unusual_login",
+      "username": "john",
+      "source_ip": "192.168.1.110",
+      "timestamp": "2026-09-18T11:00:00",
+      "severity": "medium",
+      "resolution": "closed",
+      "description": "Unusual login was investigated and determined to be legitimate."
+    }
+  ]
+}
