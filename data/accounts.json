@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "username": "admin",
+      "role": "administrator",
+      "status": "active",
+      "mfa_enabled": true,
+      "last_password_change": "2026-08-15"
+    },
+    {
+      "username": "john",
+      "role": "standard_user",
+      "status": "active",
+      "mfa_enabled": false,
+      "last_password_change": "2026-07-20"
+    },
+    {
+      "username": "alice",
+      "role": "standard_user",
+      "status": "disabled",
+      "mfa_enabled": true,
+      "last_password_change": "2026-06-10"
+    }
+  ]
+}
