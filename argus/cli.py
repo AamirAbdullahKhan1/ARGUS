@@ -1,9 +1,13 @@
+from argus.tools import account_details
 import typer
 
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from rich.table import Table
+from argus.reporting.history import load_history
+from argus.reporting.history import get_investigation
 
 from argus.data_loader import (
     get_incident_by_id,
@@ -107,6 +111,15 @@ def handle_event(event: str, details: dict):
         console.print(
             "\n[bold red]Investigation failed:[/bold red] "
             f"{details.get('reason', 'Unknown error')}"
+        )
+    
+    elif event == "history_saved":
+        console.print("[green]Investigation saved to history.[/green]")
+
+    elif event == "history_save_failed":
+        console.print(
+            f"[red]Failed to save investigation: "
+            f"{details.get('error')}[/red]"
         )
 
 
@@ -270,3 +283,113 @@ def start():
             console.print(
                 "[bold red]Invalid option. Try again.[/bold red]"
             )
+
+@app.command()
+def history():
+    """Display previous investigations."""
+
+    records = load_history()
+
+    if not records:
+        console.print("[yellow]No investigation history found.[/yellow]")
+        return
+
+    table = Table(
+        title="ARGUS Investigation History",
+        show_lines=True
+    )
+
+    table.add_column("Investigation ID", style="cyan")
+    table.add_column("Incident ID", style="blue")
+    table.add_column("Status", style="green")
+    table.add_column("Tools", justify="center")
+    table.add_column("Recommendation", style="yellow")
+
+    for record in records:
+        incident = record.get("incident", {})
+
+        table.add_row(
+            record.get("investigation_id", "N/A")[:12],
+            incident.get("incident_id", "N/A"),
+            record.get("status", "unknown"),
+            str(record.get("tool_calls", 0)),
+            record.get("recommendation") or "N/A"
+        )
+
+    console.print(table)
+
+@app.command()
+def show(investigation_id: str):
+    """Display a detailed investigation report."""
+
+    record = get_investigation(investigation_id)
+
+    if record is None:
+        console.print(
+            f"[red]Investigation '{investigation_id}' not found.[/red]"
+        )
+        raise typer.Exit(code=1)
+
+    incident = record.get("incident", {})
+
+    console.print()
+    console.print(
+        Panel(
+            f"[bold cyan]Investigation ID:[/] "
+            f"{record.get('investigation_id', 'N/A')}\n"
+            f"[bold]Status:[/] {record.get('status', 'unknown')}\n"
+            f"[bold]Incident ID:[/] "
+            f"{incident.get('incident_id', 'N/A')}",
+            title="ARGUS Investigation Report",
+            border_style="cyan"
+        )
+    )
+
+    incident_table = Table(title="Incident Details")
+    incident_table.add_column("Field", style="cyan")
+    incident_table.add_column("Value")
+
+    for key, value in incident.items():
+        incident_table.add_row(str(key), str(value))
+
+    console.print(incident_table)
+
+    console.print("\n[bold cyan]Investigation Timeline[/bold cyan]")
+    console.print(f"Started: {record.get('started_at', 'N/A')}")
+    console.print(f"Completed: {record.get('completed_at', 'N/A')}")
+
+    console.print("\n[bold cyan]Executed Tools[/bold cyan]")
+
+    tools = record.get("executed_tools", [])
+
+    if tools:
+        for index, tool in enumerate(tools, start=1):
+            console.print(f"{index}. {tool}")
+    else:
+        console.print("[yellow]No tools were executed.[/yellow]")
+
+    console.print("\n[bold cyan]Collected Evidence[/bold cyan]")
+
+    evidence = record.get("evidence", [])
+
+    if evidence:
+        for item in evidence:
+            console.print(
+                Panel(
+                    str(item.get("result", {})),
+                    title=f"Tool: {item.get('tool', 'Unknown')}",
+                    subtitle=f"Time: {item.get('timestamp', 'N/A')}",
+                    border_style="blue"
+                )
+            )
+    else:
+        console.print("[yellow]No evidence collected.[/yellow]")
+
+    console.print("\n[bold cyan]Final Recommendation[/bold cyan]")
+    console.print(
+        Panel(
+            f"[bold yellow]{record.get('recommendation') or 'N/A'}[/bold yellow]\n\n"
+            f"{record.get('reasoning') or 'No explanation available.'}",
+            border_style="yellow"
+        )
+    )
