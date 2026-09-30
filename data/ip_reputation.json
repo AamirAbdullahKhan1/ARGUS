@@ -1,0 +1,28 @@
+{
+  "ip_reputation": [
+    {
+      "ip": "192.168.1.105",
+      "reputation": "suspicious",
+      "score": 75,
+      "reported": true,
+      "reports": 5,
+      "categories": ["brute_force", "suspicious_login"]
+    },
+    {
+      "ip": "192.168.1.110",
+      "reputation": "unknown",
+      "score": 30,
+      "reported": false,
+      "reports": 0,
+      "categories": []
+    },
+    {
+      "ip": "10.0.0.15",
+      "reputation": "malicious",
+      "score": 95,
+      "reported": true,
+      "reports": 20,
+      "categories": ["brute_force", "credential_stuffing"]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "login_events": [
+    {
+      "event_id": "EVT-001",
+      "username": "admin",
+      "source_ip": "192.168.1.105",
+      "timestamp": "2026-09-29T09:25:00",
+      "status": "failed"
+    },
+    {
+      "event_id": "EVT-002",
+      "username": "admin",
+      "source_ip": "192.168.1.105",
+      "timestamp": "2026-09-29T09:26:00",
+      "status": "failed"
+    },
+    {
+      "event_id": "EVT-003",
+      "username": "admin",
+      "source_ip": "192.168.1.105",
+      "timestamp": "2026-09-29T09:27:00",
+      "status": "failed"
+    },
+    {
+      "event_id": "EVT-004",
+      "username": "admin",
+      "source_ip": "192.168.1.105",
+      "timestamp": "2026-09-29T09:30:00",
+      "status": "success"
+    },
+    {
+      "event_id": "EVT-005",
+      "username": "john",
+      "source_ip": "192.168.1.110",
+      "timestamp": "2026-09-29T10:15:00",
+      "status": "success"
+    }
+  ]
+}

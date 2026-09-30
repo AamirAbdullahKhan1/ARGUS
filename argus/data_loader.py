@@ -60,9 +60,12 @@ def get_incident_by_id(incident_id: str) -> dict | None:
     """Find a current incident by its ID."""
 
     incidents = load_incidents()
+    target_id = incident_id.strip().casefold()
 
     for incident in incidents:
-        if incident.get("id", "").lower() == incident_id.lower():
+        stored_id = str(incident.get("incident_id", "")).strip().casefold()
+
+        if stored_id == target_id:
             return incident
 
     return None

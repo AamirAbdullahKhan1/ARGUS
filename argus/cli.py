@@ -1,4 +1,5 @@
 import typer
+from argus.data_loader import get_incident_by_id
 
 from rich.console import Console
 from rich.panel import Panel
@@ -84,6 +85,39 @@ def start():
             console.print("\n[yellow]Shutting down ARGUS...[/yellow]")
             break
 
+@app.command()
+def analyze(incident_id: str):
+    """Retrieve an incident by its ID."""
+
+    try:
+        incident = get_incident_by_id(incident_id)
+
+    except (FileNotFoundError, ValueError) as exc:
+        console.print(f"[bold red]Dataset error:[/bold red] {exc}")
+        raise typer.Exit(code=1)
+
+    if incident is None:
+        console.print(
+            f"[bold red]Incident {incident_id} not found.[/bold red]"
+        )
+        raise typer.Exit(code=1)
+
+    console.print()
+    console.print(
+        Panel(
+            f"[bold cyan]Incident ID:[/bold cyan] {incident['incident_id']}\n"
+            f"[bold cyan]Type:[/bold cyan] {incident['event_type']}\n"
+            f"[bold cyan]Username:[/bold cyan] {incident['username']}\n"
+            f"[bold cyan]Source IP:[/bold cyan] {incident['source_ip']}\n"
+            f"[bold cyan]Timestamp:[/bold cyan] {incident['timestamp']}\n"
+            f"[bold cyan]Severity:[/bold cyan] {incident['severity']}\n"
+            f"[bold cyan]Status:[/bold cyan] {incident['status']}\n\n"
+            f"[bold cyan]Description:[/bold cyan]\n"
+            f"{incident['description']}",
+            title="Incident Details",
+            border_style="cyan",
+        )
+    )
 
 if __name__ == "__main__":
     app()
