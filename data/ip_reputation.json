@@ -23,6 +23,54 @@
       "reported": true,
       "reports": 20,
       "categories": ["brute_force", "credential_stuffing"]
+    },
+    {
+      "ip": "203.0.113.45",
+      "reputation": "suspicious",
+      "score": 78,
+      "reported": true,
+      "reports": 12,
+      "categories": ["brute_force", "credential_abuse"]
+    },
+    {
+      "ip": "198.51.100.27",
+      "reputation": "malicious",
+      "score": 91,
+      "reported": true,
+      "reports": 34,
+      "categories": ["credential_stuffing", "bot_activity"]
+    },
+    {
+      "ip": "203.0.113.88",
+      "reputation": "unknown",
+      "score": 20,
+      "reported": false,
+      "reports": 0,
+      "categories": []
+    },
+    {
+      "ip": "198.51.100.90",
+      "reputation": "clean",
+      "score": 5,
+      "reported": false,
+      "reports": 0,
+      "categories": []
+    },
+    {
+      "ip": "192.0.2.120",
+      "reputation": "unknown",
+      "score": 25,
+      "reported": false,
+      "reports": 0,
+      "categories": []
+    },
+    {
+      "ip": "203.0.113.150",
+      "reputation": "unavailable",
+      "score": null,
+      "reported": null,
+      "reports": null,
+      "categories": []
     }
   ]
 }

@@ -162,7 +162,6 @@ def display_incident(incident: dict):
 
     console.print(table)
 
-
 def display_report(state):
     """Display the final investigation report."""
 
@@ -175,12 +174,36 @@ def display_report(state):
     report.add_column("Value")
 
     report.add_row("Investigation ID", state.investigation_id)
+    report.add_row("Provider", state.provider.upper())
     report.add_row("Status", state.status.upper())
     report.add_row("Tool calls", str(state.tool_calls))
     report.add_row(
         "Executed tools",
         ", ".join(state.executed_tools) or "None",
     )
+
+    if state.risk_score is not None:
+        score = state.risk_score
+
+        if score <= 2.0:
+            risk_level = "Very Low"
+        elif score <= 4.0:
+            risk_level = "Low"
+        elif score <= 6.0:
+            risk_level = "Moderate"
+        elif score <= 8.0:
+            risk_level = "High"
+        else:
+            risk_level = "Critical"
+
+        report.add_row("Risk Score", f"{score:.1f} / 10")
+        report.add_row("Risk Level", risk_level)
+
+        report.add_row(
+            "Risk Reasoning",
+            str(state.risk_reasoning or "N/A"),
+        )
+
     report.add_row(
         "Recommendation",
         str(state.recommendation or "N/A").upper(),
@@ -193,10 +216,32 @@ def display_report(state):
     console.print()
     console.print(report)
 
-
 @app.command()
-def analyze(incident_id: str):
+def analyze(
+    incident_id: str,
+    provider: str = typer.Option(
+        "groq",
+        "--provider",
+        "-p",
+        help="Decision provider: groq or jev",
+    ),
+):
     """Analyze a specific security incident."""
+
+    provider = provider.lower()
+
+    if provider not in {"groq", "jev"}:
+        console.print(
+            "[bold red]Invalid provider. "
+            "Choose 'groq' or 'jev'.[/bold red]"
+        )
+        raise typer.Exit(code=1)
+
+    if provider == "jev":
+        console.print(
+            "[yellow]Jev integration is not implemented yet.[/yellow]"
+        )
+        raise typer.Exit(code=1)
 
     incident = get_incident_by_id(incident_id)
 
@@ -211,12 +256,14 @@ def analyze(incident_id: str):
     display_incident(incident)
 
     console.print(
-        "\n[bold cyan]Initializing ARGUS...[/bold cyan]"
+        f"\n[bold cyan]Initializing ARGUS "
+        f"with {provider.upper()}...[/bold cyan]"
     )
 
     try:
         engine = InvestigationEngine(
             event_callback=handle_event,
+            provider_name=provider,
         )
 
         state = engine.investigate(incident)
@@ -234,7 +281,6 @@ def analyze(incident_id: str):
             f"[bold red]Unexpected error:[/bold red] {exc}"
         )
         raise typer.Exit(code=1)
-
 
 @app.command()
 def start():
@@ -302,6 +348,8 @@ def history():
     table.add_column("Investigation ID", style="cyan")
     table.add_column("Incident ID", style="blue")
     table.add_column("Status", style="green")
+    table.add_column("Provider", style="magenta")
+    table.add_column("Risk Score", justify="center")
     table.add_column("Tools", justify="center")
     table.add_column("Recommendation", style="yellow")
 
@@ -312,6 +360,12 @@ def history():
             record.get("investigation_id", "N/A")[:12],
             incident.get("incident_id", "N/A"),
             record.get("status", "unknown"),
+            record.get("provider", "unknown").upper(),
+            (
+                f"{record['risk_score']:.1f}"
+                if isinstance(record.get("risk_score"), (int, float))
+                else "N/A"
+            ),
             str(record.get("tool_calls", 0)),
             record.get("recommendation") or "N/A"
         )
@@ -385,6 +439,44 @@ def show(investigation_id: str):
     else:
         console.print("[yellow]No evidence collected.[/yellow]")
 
+    # Risk Assessment
+    console.print("\n[bold cyan]Risk Assessment[/bold cyan]")
+
+    risk_score = record.get("risk_score")
+    risk_reasoning = record.get("risk_reasoning")
+
+    if risk_score is not None:
+        if risk_score <= 2:
+            risk_level = "Very Low"
+        elif risk_score <= 4:
+            risk_level = "Low"
+        elif risk_score <= 6:
+            risk_level = "Moderate"
+        elif risk_score <= 8:
+            risk_level = "High"
+        else:
+            risk_level = "Critical"
+
+        risk_panel = (
+            f"[bold]Risk Score:[/] {risk_score}/10\n"
+            f"[bold]Risk Level:[/] {risk_level}\n\n"
+            f"[bold]Assessment:[/]\n"
+            f"{risk_reasoning or 'No explanation available.'}"
+        )
+
+        console.print(
+            Panel(
+                risk_panel,
+                title="Risk Analysis",
+                border_style="red"
+            )
+        )
+    else:
+        console.print(
+            "[yellow]No risk assessment available.[/yellow]"
+        )
+
+    # Final Recommendation
     console.print("\n[bold cyan]Final Recommendation[/bold cyan]")
     console.print(
         Panel(

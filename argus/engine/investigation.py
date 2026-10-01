@@ -3,13 +3,22 @@ from argus.tool_executor import execute_tool
 from argus.providers.groq_provider import GroqDecisionProvider
 from argus.reporting.history import save_investigation
 
+
 MAX_TOOL_CALLS = 5
 
 
 class InvestigationEngine:
-    def __init__(self, decision_provider=None, event_callback=None):
-        self.decision_provider = decision_provider or GroqDecisionProvider()
+    def __init__(
+        self,
+        decision_provider=None,
+        event_callback=None,
+        provider_name="groq",
+    ):
+        self.decision_provider = (
+            decision_provider or GroqDecisionProvider()
+        )
         self.event_callback = event_callback
+        self.provider_name = provider_name
 
     def _emit(self, event: str, **details):
         if self.event_callback:
@@ -31,11 +40,15 @@ class InvestigationEngine:
             )
 
     def investigate(self, incident: dict) -> InvestigationState:
-        state = InvestigationState(incident)
+        state = InvestigationState(
+            incident,
+            provider=self.provider_name,
+        )
 
         self._emit(
             "investigation_started",
-            incident_id=incident.get("incident_id")
+            incident_id=incident.get("incident_id"),
+            provider=self.provider_name,
         )
 
         while state.tool_calls < MAX_TOOL_CALLS:
@@ -48,8 +61,50 @@ class InvestigationEngine:
                 decision = self.decision_provider.select_action(
                     incident, state
                 )
+
+            except ValueError as exc:
+                if "Tool already executed:" in str(exc):
+                    self._emit(
+                        "invalid_tool_request",
+                        reason=str(exc),
+                        tool_calls=state.tool_calls,
+                    )
+
+                    # Retry once if Groq requests an already-used tool.
+                    try:
+                        decision = (
+                            self.decision_provider.select_action(
+                                incident, state
+                            )
+                        )
+
+                    except Exception as retry_exc:
+                        state.fail(
+                            "Decision provider failed after retry: "
+                            f"{retry_exc}"
+                        )
+                        self._save_state(state)
+                        self._emit(
+                            "investigation_failed",
+                            reason=state.reasoning
+                        )
+                        return state
+
+                else:
+                    state.fail(
+                        f"Decision provider failed: {exc}"
+                    )
+                    self._save_state(state)
+                    self._emit(
+                        "investigation_failed",
+                        reason=state.reasoning
+                    )
+                    return state
+
             except Exception as exc:
-                state.fail(f"Decision provider failed: {exc}")
+                state.fail(
+                    f"Decision provider failed: {exc}"
+                )
                 self._save_state(state)
                 self._emit(
                     "investigation_failed",
@@ -62,6 +117,9 @@ class InvestigationEngine:
             action = decision["action"]
 
             if action == "complete":
+                state.risk_score = decision["risk_score"]
+                state.risk_reasoning = decision["risk_reasoning"]
+
                 state.complete(
                     decision["recommendation"],
                     decision["reason"]
@@ -72,8 +130,11 @@ class InvestigationEngine:
                 self._emit(
                     "investigation_completed",
                     recommendation=state.recommendation,
+                    risk_score=state.risk_score,
                     reasoning=state.reasoning,
-                    tool_calls=state.tool_calls
+                    risk_reasoning=state.risk_reasoning,
+                    tool_calls=state.tool_calls,
+                    provider=self.provider_name,
                 )
                 return state
 
@@ -81,7 +142,9 @@ class InvestigationEngine:
                 tool_name = decision["tool"]
 
                 if tool_name in state.executed_tools:
-                    state.fail(f"Repeated tool call: {tool_name}")
+                    state.fail(
+                        f"Repeated tool call: {tool_name}"
+                    )
                     self._save_state(state)
                     self._emit(
                         "investigation_failed",
@@ -120,7 +183,9 @@ class InvestigationEngine:
                 )
 
                 if not tool_success:
-                    state.fail(f"Tool execution failed: {tool_name}")
+                    state.fail(
+                        f"Tool execution failed: {tool_name}"
+                    )
                     self._save_state(state)
                     self._emit(
                         "investigation_failed",
