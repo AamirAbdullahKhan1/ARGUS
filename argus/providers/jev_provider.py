@@ -1,30 +1,35 @@
-import os
-import requests
-
 from argus.engine.jev_input import JevInputFormatter
+from argus.jev_client import JevClient
 
 
 class JevDecisionProvider:
     """Make incident response decisions using Jev."""
 
-    API_URL = "https://jev-ai.org/api/v1/systemone/"
-    MODEL = "jev-1.13"
-
     RISK_QUESTION = {
-    "risk_assessment": {
-        "type": "score",
-        "instructions": (
-            "Assess the security risk of this incident using "
-            "the incident details and investigation evidence. "
-            "Consider the severity of the activity, the reliability "
-            "and completeness of the evidence, and any indicators "
-            "of compromise. Do not assume missing evidence indicates "
-            "a safe condition. Return a risk score from 1 to 10, "
-            "where 1 represents negligible risk and 10 represents "
-            "critical risk."
-        )
+        "risk_assessment": {
+            "type": "score",
+            "instructions": (
+                "Assess the security risk of this incident using "
+                "the incident details and investigation evidence. "
+                "Consider the severity of the activity, the reliability "
+                "and completeness of the evidence, and any indicators "
+                "of compromise. Do not assume missing evidence indicates "
+                "a safe condition. Assign a risk level from 1 to 10."
+            ),
+            "criteria": [
+                "1 - Negligible risk",
+                "2 - Very low risk",
+                "3 - Low risk",
+                "4 - Moderate-low risk",
+                "5 - Moderate risk",
+                "6 - Moderate-high risk",
+                "7 - High risk",
+                "8 - Very high risk",
+                "9 - Critical risk",
+                "10 - Extreme risk",
+            ],
+        }
     }
-}
 
     RESPONSE_QUESTION = {
         "response_recommendation": {
@@ -52,61 +57,33 @@ class JevDecisionProvider:
                 "contain": (
                     "Take an immediate containment action to "
                     "limit potential damage."
-                )
-            }
+                ),
+            },
         }
     }
 
-    def __init__(self, api_key=None):
-        self.api_key = api_key or os.getenv("JEV_API_KEY")
-
-        if not self.api_key:
-            raise ValueError("JEV_API_KEY is not configured.")
-
-    def _make_request(self, state, questions):
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-
-        payload = {
-            "model": self.MODEL,
-            "state": state,
-            "questions": questions
-        }
-
-        response = requests.post(
-            self.API_URL,
-            headers=headers,
-            json=payload,
-            timeout=30
-        )
-
-        response.raise_for_status()
-        return response.json()
+    def __init__(self, client=None):
+        self.client = client or JevClient()
 
     def assess_risk(self, state):
         jev_state = JevInputFormatter.build_state(state)
 
-        response = self._make_request(
+        response = self.client.generate(
             state=jev_state,
-            questions=self.RISK_QUESTION
+            questions=self.RISK_QUESTION,
         )
 
         state.jev_responses["risk_assessment"] = response
-
         return response
 
     def recommend_response(self, state, risk_assessment):
         jev_state = JevInputFormatter.build_state(state)
-
         jev_state["risk_assessment"] = risk_assessment
 
-        response = self._make_request(
+        response = self.client.generate(
             state=jev_state,
-            questions=self.RESPONSE_QUESTION
+            questions=self.RESPONSE_QUESTION,
         )
 
         state.jev_responses["response_recommendation"] = response
-
         return response

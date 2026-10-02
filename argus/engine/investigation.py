@@ -3,22 +3,36 @@ from argus.tool_executor import execute_tool
 from argus.providers.groq_provider import GroqDecisionProvider
 from argus.reporting.history import save_investigation
 
-
 MAX_TOOL_CALLS = 5
-
 
 class InvestigationEngine:
     def __init__(
         self,
         decision_provider=None,
+        jev_provider=None,
         event_callback=None,
         provider_name="groq",
     ):
+        # Groq always orchestrates the investigation.
         self.decision_provider = (
             decision_provider or GroqDecisionProvider()
         )
+
+        # Jev is used only for final decisions in Jev mode.
+        self.jev_provider = jev_provider
+
         self.event_callback = event_callback
         self.provider_name = provider_name
+
+        if provider_name not in ("groq", "jev"):
+            raise ValueError(
+                f"Unsupported provider: {provider_name}"
+            )
+
+        if provider_name == "jev" and jev_provider is None:
+            raise ValueError(
+                "JevDecisionProvider is required in Jev mode."
+            )
 
     def _emit(self, event: str, **details):
         if self.event_callback:
@@ -38,6 +52,82 @@ class InvestigationEngine:
                 error=str(exc),
                 investigation_id=state.investigation_id
             )
+
+    def _complete_with_jev(self, state):
+        """Use Jev for the final risk and response decisions."""
+        try:
+            self._emit("jev_risk_assessment_started")
+
+            risk_response = self.jev_provider.assess_risk(state)
+
+            risk_answer = risk_response["answers"]["risk_assessment"]
+
+            # Jev's score is zero-based for the supplied criteria.
+            raw_score = float(risk_answer["score"])
+            risk_score = raw_score + 1
+
+            self._emit(
+                "jev_risk_assessment_completed",
+                risk_score=risk_score,
+                confidence=risk_answer.get("confidence"),
+            )
+
+            self._emit("jev_response_recommendation_started")
+
+            response = self.jev_provider.recommend_response(
+                state,
+                risk_response
+            )
+
+            response_answer = response[
+                "answers"
+            ]["response_recommendation"]
+
+            recommendation = response_answer["choice"]
+
+            reasoning = (
+                "Response selected by Jev using the investigation "
+                "evidence and risk assessment."
+            )
+
+            risk_reasoning = (
+                "Jev risk assessment. "
+                f"Raw score: {raw_score}. "
+                f"Confidence: {risk_answer.get('confidence')}."
+            )
+
+            state.complete_jev(
+                risk_score=risk_score,
+                risk_reasoning=risk_reasoning,
+                response_recommendation=recommendation,
+                response_reasoning=reasoning,
+            )
+
+            self._save_state(state)
+
+            self._emit(
+                "investigation_completed",
+                recommendation=state.recommendation,
+                risk_score=state.risk_score,
+                reasoning=state.reasoning,
+                risk_reasoning=state.risk_reasoning,
+                tool_calls=state.tool_calls,
+                provider=self.provider_name,
+            )
+
+            return state
+
+        except Exception as exc:
+            state.fail(f"Jev decision failed: {exc}")
+            self._save_state(state)
+
+            self._emit(
+                "investigation_failed",
+                reason=state.reasoning,
+                provider=self.provider_name,
+            )
+
+            return state
 
     def investigate(self, incident: dict) -> InvestigationState:
         state = InvestigationState(
@@ -117,6 +207,10 @@ class InvestigationEngine:
             action = decision["action"]
 
             if action == "complete":
+                if self.provider_name == "jev":
+                    return self._complete_with_jev(state)
+
+                # Existing Groq-only completion behavior.
                 state.risk_score = decision["risk_score"]
                 state.risk_reasoning = decision["risk_reasoning"]
 

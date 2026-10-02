@@ -1,6 +1,7 @@
 from argus.tools import account_details
 import typer
 
+
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
@@ -8,13 +9,15 @@ from rich.text import Text
 from rich.table import Table
 from argus.reporting.history import load_history
 from argus.reporting.history import get_investigation
+from argus.providers.jev_provider import JevDecisionProvider
 
 from argus.data_loader import (
     get_incident_by_id,
     load_incidents,
-)
-from argus.engine.investigation import InvestigationEngine
 
+)
+
+from argus.engine.investigation import InvestigationEngine
 
 app = typer.Typer(
     help="ARGUS: AI-Driven Incident Response Agent",
@@ -22,7 +25,6 @@ app = typer.Typer(
 )
 
 console = Console()
-
 
 def display_banner():
     """Display the ARGUS banner."""
@@ -33,6 +35,7 @@ def display_banner():
         "AI-Driven Incident Response Agent\n",
         style="bold white",
     )
+
     banner.append(
         "Powered by Groq | GPT-OSS-20B",
         style="dim",
@@ -45,7 +48,6 @@ def display_banner():
             padding=(1, 4),
         )
     )
-
 
 def handle_event(event: str, details: dict):
     """Display investigation progress in the terminal."""
@@ -96,6 +98,7 @@ def handle_event(event: str, details: dict):
                 f"[bold green]✓ Tool completed:[/bold green] "
                 f"{details['tool']}"
             )
+
         else:
             console.print(
                 f"[bold red]✗ Tool failed:[/bold red] "
@@ -112,7 +115,7 @@ def handle_event(event: str, details: dict):
             "\n[bold red]Investigation failed:[/bold red] "
             f"{details.get('reason', 'Unknown error')}"
         )
-    
+
     elif event == "history_saved":
         console.print("[green]Investigation saved to history.[/green]")
 
@@ -121,7 +124,6 @@ def handle_event(event: str, details: dict):
             f"[red]Failed to save investigation: "
             f"{details.get('error')}[/red]"
         )
-
 
 def display_incident(incident: dict):
     """Display the incident details."""
@@ -134,7 +136,6 @@ def display_incident(incident: dict):
 
     table.add_column("Field", style="bold cyan")
     table.add_column("Value")
-
     table.add_row(
         "Incident ID",
         str(incident.get("incident_id", "N/A")),
@@ -159,7 +160,6 @@ def display_incident(incident: dict):
         "Description",
         str(incident.get("description", "N/A")),
     )
-
     console.print(table)
 
 def display_report(state):
@@ -208,6 +208,7 @@ def display_report(state):
         "Recommendation",
         str(state.recommendation or "N/A").upper(),
     )
+
     report.add_row(
         "Reasoning",
         str(state.reasoning or "N/A"),
@@ -215,6 +216,40 @@ def display_report(state):
 
     console.print()
     console.print(report)
+
+    if state.provider.lower() == "jev":
+        display_jev_details(getattr(state, "jev_responses", None))
+
+def display_jev_details(jev_responses: dict):
+    """Display the raw Jev assessment and recommendation."""
+
+    if not jev_responses:
+        return
+
+    risk_response = jev_responses.get("risk_assessment")
+    recommendation_response = jev_responses.get(
+        "response_recommendation"
+    )
+
+    console.print("\n[bold cyan]Jev Analysis Details[/bold cyan]")
+
+    if risk_response:
+        console.print(
+            Panel(
+                str(risk_response),
+                title="Jev Risk Assessment Response",
+                border_style="magenta",
+            )
+        )
+
+    if recommendation_response:
+        console.print(
+            Panel(
+                str(recommendation_response),
+                title="Jev Response Recommendation",
+                border_style="magenta",
+            )
+        )
 
 @app.command()
 def analyze(
@@ -237,12 +272,6 @@ def analyze(
         )
         raise typer.Exit(code=1)
 
-    if provider == "jev":
-        console.print(
-            "[yellow]Jev integration is not implemented yet.[/yellow]"
-        )
-        raise typer.Exit(code=1)
-
     incident = get_incident_by_id(incident_id)
 
     if incident is None:
@@ -261,13 +290,19 @@ def analyze(
     )
 
     try:
+        jev_provider = (
+            JevDecisionProvider()
+            if provider == "jev"
+            else None
+        )
+
         engine = InvestigationEngine(
+            jev_provider=jev_provider,
             event_callback=handle_event,
             provider_name=provider,
         )
 
         state = engine.investigate(incident)
-
         display_report(state)
 
         if state.status != "completed":
@@ -290,36 +325,78 @@ def start():
 
     while True:
         console.print("\n[bold cyan]Main Menu[/bold cyan]")
-        console.print("1. Analyze an incident")
-        console.print("2. List available incidents")
-        console.print("3. Exit")
+        console.print("1. Start Investigation")
+        console.print("2. Help")
+        console.print("3. Previous Investigations")
+        console.print("4. Exit")
 
         choice = typer.prompt("Select an option")
 
         if choice == "1":
-            incident_id = typer.prompt("Enter incident ID")
-            analyze(incident_id)
+            console.print("\n[bold cyan]Select Provider[/bold cyan]")
+            console.print("1. Groq")
+            console.print("2. Jev")
+            console.print("3. Back")
+
+            provider_choice = typer.prompt("Select provider")
+
+            if provider_choice == "3":
+                continue
+
+            if provider_choice == "1":
+                provider = "groq"
+            elif provider_choice == "2":
+                provider = "jev"
+            else:
+                console.print(
+                    "[bold red]Invalid provider option.[/bold red]"
+                )
+                continue
+
+            incident_id = typer.prompt(
+                "Enter incident ID"
+            )
+
+            analyze(incident_id, provider)
 
         elif choice == "2":
-            incidents = load_incidents()
-
-            table = Table(title="Available Incidents")
-            table.add_column("Incident ID")
-            table.add_column("Type")
-            table.add_column("Severity")
-            table.add_column("Status")
-
-            for incident in incidents:
-                table.add_row(
-                    str(incident.get("incident_id", "N/A")),
-                    str(incident.get("event_type", "N/A")),
-                    str(incident.get("severity", "N/A")).upper(),
-                    str(incident.get("status", "N/A")),
+            console.print(
+                Panel(
+                    "[bold cyan]ARGUS Help[/bold cyan]\n\n"
+                    "ARGUS is an AI-driven incident response agent "
+                    "that investigates security incidents using "
+                    "available investigation tools.\n\n"
+                    "[bold]Providers[/bold]\n"
+                    "Groq: Handles investigation and final decisions.\n"
+                    "Jev: Groq orchestrates the investigation, while "
+                    "Jev provides the final risk assessment and "
+                    "response recommendation.\n\n"
+                    "[bold]Commands[/bold]\n"
+                    "argus start: Open the interactive menu.\n"
+                    "argus analyze INCIDENT_ID: Analyze an incident.\n"
+                    "argus history: List previous investigations.\n"
+                    "argus show INVESTIGATION_ID: View a report.",
+                    title="Help",
+                    border_style="cyan",
                 )
-
-            console.print(table)
+            )
 
         elif choice == "3":
+            history()
+
+            records = load_history()
+
+            if records:
+                view_choice = typer.prompt(
+                    "Enter an investigation ID to view "
+                    "a report, or press Enter to return",
+                    default="",
+                ).strip()
+
+                if view_choice:
+                    show(view_choice)
+
+        elif choice == "4":
             console.print(
                 "[bold cyan]Shutting down ARGUS. Goodbye![/bold cyan]"
             )
@@ -411,7 +488,6 @@ def show(investigation_id: str):
     console.print("\n[bold cyan]Investigation Timeline[/bold cyan]")
     console.print(f"Started: {record.get('started_at', 'N/A')}")
     console.print(f"Completed: {record.get('completed_at', 'N/A')}")
-
     console.print("\n[bold cyan]Executed Tools[/bold cyan]")
 
     tools = record.get("executed_tools", [])
@@ -441,7 +517,6 @@ def show(investigation_id: str):
 
     # Risk Assessment
     console.print("\n[bold cyan]Risk Assessment[/bold cyan]")
-
     risk_score = record.get("risk_score")
     risk_reasoning = record.get("risk_reasoning")
 
@@ -485,3 +560,5 @@ def show(investigation_id: str):
             border_style="yellow"
         )
     )
+    if record.get("provider", "").lower() == "jev":
+        display_jev_details(record.get("jev_responses"))
