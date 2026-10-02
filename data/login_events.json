@@ -1,39 +1,89 @@
 {
-  "login_events": [
+  "login_history": [
     {
-      "event_id": "EVT-001",
-      "username": "admin",
-      "source_ip": "192.168.1.105",
-      "timestamp": "2026-09-29T09:25:00",
-      "status": "failed"
+      "username": "alex",
+      "events": [
+        {
+          "timestamp": "2026-10-01T02:10:00Z",
+          "source_ip": "203.0.113.45",
+          "status": "failed",
+          "reason": "invalid_password"
+        },
+        {
+          "timestamp": "2026-10-01T02:12:00Z",
+          "source_ip": "203.0.113.45",
+          "status": "failed",
+          "reason": "invalid_password"
+        },
+        {
+          "timestamp": "2026-10-01T02:15:00Z",
+          "source_ip": "203.0.113.45",
+          "status": "success",
+          "reason": null
+        }
+      ]
     },
     {
-      "event_id": "EVT-002",
-      "username": "admin",
-      "source_ip": "192.168.1.105",
-      "timestamp": "2026-09-29T09:26:00",
-      "status": "failed"
+      "username": "sarah",
+      "events": [
+        {
+          "timestamp": "2026-10-01T09:20:00Z",
+          "source_ip": "198.51.100.27",
+          "status": "success",
+          "reason": null
+        },
+        {
+          "timestamp": "2026-09-30T10:05:00Z",
+          "source_ip": "192.0.2.44",
+          "status": "success",
+          "reason": null
+        }
+      ]
     },
     {
-      "event_id": "EVT-003",
-      "username": "admin",
-      "source_ip": "192.168.1.105",
-      "timestamp": "2026-09-29T09:27:00",
-      "status": "failed"
+      "username": "michael",
+      "events": [
+        {
+          "timestamp": "2026-10-01T03:40:00Z",
+          "source_ip": "203.0.113.88",
+          "status": "success",
+          "reason": null
+        },
+        {
+          "timestamp": "2026-09-30T10:15:00Z",
+          "source_ip": "192.0.2.55",
+          "status": "success",
+          "reason": null
+        }
+      ]
     },
     {
-      "event_id": "EVT-004",
       "username": "admin",
-      "source_ip": "192.168.1.105",
-      "timestamp": "2026-09-29T09:30:00",
-      "status": "success"
+      "events": [
+        {
+          "timestamp": "2026-10-01T10:30:00Z",
+          "source_ip": "192.0.2.120",
+          "status": "success",
+          "reason": null
+        },
+        {
+          "timestamp": "2026-09-30T10:00:00Z",
+          "source_ip": "192.0.2.60",
+          "status": "success",
+          "reason": null
+        }
+      ]
     },
     {
-      "event_id": "EVT-005",
-      "username": "john",
-      "source_ip": "192.168.1.110",
-      "timestamp": "2026-09-29T10:15:00",
-      "status": "success"
+      "username": "jordan",
+      "events": [
+        {
+          "timestamp": "2026-10-01T04:50:00Z",
+          "source_ip": "203.0.113.150",
+          "status": "success",
+          "reason": null
+        }
+      ]
     }
   ]
 }
