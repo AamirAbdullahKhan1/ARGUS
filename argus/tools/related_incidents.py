@@ -61,7 +61,7 @@ def search_related_incidents(
         matches.append(incident)
 
     return {
-        "success": True,
+        "success": False,
         "criteria": {
             "username": username,
             "source_ip": source_ip,

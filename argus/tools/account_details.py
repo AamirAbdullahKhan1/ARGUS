@@ -46,7 +46,7 @@ def get_account_details(username: str) -> dict:
             }
 
     return {
-        "success": True,
+        "success": False,
         "username": username,
         "account": None,
         "message": "Account not found."

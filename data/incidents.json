@@ -1,7 +1,7 @@
 {
   "incidents": [
     {
-      "incident_id": "INC-001",
+      "incident_id": "INC-007",
       "event_type": "suspicious_login",
       "username": "admin",
       "source_ip": "192.168.1.105",
@@ -11,7 +11,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-002",
+      "incident_id": "INC-008",
       "event_type": "unusual_login",
       "username": "john",
       "source_ip": "192.168.1.110",
@@ -21,7 +21,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-003",
+      "incident_id": "INC-009",
       "event_type": "suspicious_login",
       "username": "alex",
       "source_ip": "203.0.113.45",
@@ -31,7 +31,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-004",
+      "incident_id": "INC-010",
       "event_type": "unusual_login",
       "username": "sarah",
       "source_ip": "198.51.100.27",
@@ -41,7 +41,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-005",
+      "incident_id": "INC-011",
       "event_type": "account_anomaly",
       "username": "michael",
       "source_ip": "203.0.113.88",
@@ -51,7 +51,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-006",
+      "incident_id": "INC-012",
       "event_type": "multiple_account_login",
       "username": "unknown",
       "source_ip": "198.51.100.90",
@@ -61,7 +61,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-007",
+      "incident_id": "INC-013",
       "event_type": "privileged_account_login",
       "username": "admin",
       "source_ip": "192.0.2.120",
@@ -71,7 +71,7 @@
       "status": "new"
     },
     {
-      "incident_id": "INC-008",
+      "incident_id": "INC-014",
       "event_type": "suspicious_login",
       "username": "jordan",
       "source_ip": "203.0.113.150",
