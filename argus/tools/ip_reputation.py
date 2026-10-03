@@ -45,7 +45,7 @@ def check_ip_reputation(ip: str) -> dict:
             }
 
     return {
-        "success": False,
+        "success": True,
         "ip": ip,
         "data": None,
         "message": "No reputation data found for this IP."

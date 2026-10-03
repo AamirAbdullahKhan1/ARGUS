@@ -1,49 +1,49 @@
 {
   "accounts": [
-    {
-      "username": "alex",
-      "role": "employee",
-      "account_status": "active",
-      "mfa_enabled": true,
-      "usual_login_hours": "08:00-18:00",
-      "usual_locations": ["Chennai"],
-      "account_age_days": 620
-    },
-    {
-      "username": "sarah",
-      "role": "employee",
-      "account_status": "active",
-      "mfa_enabled": true,
-      "usual_login_hours": "08:00-20:00",
-      "usual_locations": ["Bengaluru"],
-      "account_age_days": 940
-    },
-    {
-      "username": "michael",
-      "role": "finance",
-      "account_status": "active",
-      "mfa_enabled": false,
-      "usual_login_hours": "09:00-18:00",
-      "usual_locations": ["Chennai"],
-      "account_age_days": 420
-    },
-    {
-      "username": "admin",
-      "role": "administrator",
-      "account_status": "active",
-      "mfa_enabled": true,
-      "usual_login_hours": "09:00-18:00",
-      "usual_locations": ["Chennai"],
-      "account_age_days": 1200
-    },
-    {
-      "username": "jordan",
-      "role": "employee",
-      "account_status": "active",
-      "mfa_enabled": true,
-      "usual_login_hours": "08:00-18:00",
-      "usual_locations": ["Hyderabad"],
-      "account_age_days": 180
-    }
-  ]
+        {
+            "username": "alex",
+            "role": "employee",
+            "account_status": "active",
+            "mfa_enabled": true,
+            "usual_login_hours": "08:00-18:00",
+            "usual_locations": ["Chennai"],
+            "account_age_days": 620
+        },
+        {
+            "username": "sarah",
+            "role": "employee",
+            "account_status": "active",
+            "mfa_enabled": true,
+            "usual_login_hours": "08:00-20:00",
+            "usual_locations": ["Bengaluru"],
+            "account_age_days": 940
+        },
+        {
+            "username": "michael",
+            "role": "finance",
+            "account_status": "active",
+            "mfa_enabled": false,
+            "usual_login_hours": "09:00-18:00",
+            "usual_locations": ["Chennai"],
+            "account_age_days": 420
+        },
+        {
+            "username": "admin",
+            "role": "administrator",
+            "account_status": "active",
+            "mfa_enabled": true,
+            "usual_login_hours": "09:00-18:00",
+            "usual_locations": ["Chennai"],
+            "account_age_days": 1200
+        },
+        {
+            "username": "jordan",
+            "role": "employee",
+            "account_status": "active",
+            "mfa_enabled": true,
+            "usual_login_hours": "08:00-18:00",
+            "usual_locations": ["Hyderabad"],
+            "account_age_days": 180
+        }
+    ]
 }

@@ -1,65 +1,64 @@
 {
   "previous_incidents": [
-    {
-      "incident_id": "INC-001",
-      "username": "admin",
-      "event_type": "suspicious_login",
-      "severity": "high",
-      "status": "closed",
-      "timestamp": "2026-09-20T14:30:00",
-      "source_ip": "192.168.1.105",
-      "description": "Repeated login failures followed by an unusual successful login."
-    },
-    {
-      "incident_id": "INC-002",
-      "username": "john",
-      "event_type": "unusual_login",
-      "severity": "medium",
-      "status": "closed",
-      "timestamp": "2026-09-18T11:00:00",
-      "source_ip": "192.168.1.110",
-      "description": "Unusual login was investigated and determined to be legitimate."
-    },
-    {
-      "incident_id": "INC-003",
-      "username": "alex",
-      "event_type": "brute_force",
-      "severity": "medium",
-      "status": "closed",
-      "timestamp": "2026-09-25T02:00:00Z",
-      "source_ip": "203.0.113.45",
-      "description": "Previous brute-force activity involving the same account and source IP."
-    },
-    {
-      "incident_id": "INC-004",
-      "username": "sarah",
-      "event_type": "suspicious_login",
-      "severity": "low",
-      "status": "closed",
-      "timestamp": "2026-09-20T09:00:00Z",
-      "source_ip": "198.51.100.27",
-      "description": "A previous alert involving the same source IP. The investigation did not establish account compromise."
-    },
-    {
-      "incident_id": "INC-005",
-      "username": "michael",
-      "event_type": "account_anomaly",
-      "severity": "medium",
-      "status": "closed",
-      "timestamp": "2026-09-15T03:00:00Z",
-      "source_ip": "203.0.113.88",
-      "description": "An earlier account settings change was investigated and found to be legitimate."
-    },
-    {
-      "incident_id": "INC-006",
-      "username": "unknown",
-      "event_type": "multiple_account_login",
-      "severity": "low",
-      "status": "closed",
-      "timestamp": "2026-09-10T11:00:00Z",
-      "source_ip": "198.51.100.90",
-      "description": "Multiple users accessed the system through a shared corporate network."
-    }
-
-  ]
+        {
+            "incident_id": "INC-001",
+            "username": "admin",
+            "event_type": "suspicious_login",
+            "severity": "high",
+            "status": "closed",
+            "timestamp": "2026-09-20T14:30:00Z",
+            "source_ip": "192.0.2.120",
+            "description": "A previous privileged-account login from the same previously unseen source IP was investigated and closed after review."
+        },
+        {
+            "incident_id": "INC-002",
+            "username": "alex",
+            "event_type": "brute_force",
+            "severity": "medium",
+            "status": "closed",
+            "timestamp": "2026-09-25T02:00:00Z",
+            "source_ip": "203.0.113.45",
+            "description": "Repeated failed authentication attempts involving the account and source IP were investigated and closed."
+        },
+        {
+            "incident_id": "INC-003",
+            "username": "sarah",
+            "event_type": "suspicious_login",
+            "severity": "low",
+            "status": "closed",
+            "timestamp": "2026-09-20T09:00:00Z",
+            "source_ip": "198.51.100.27",
+            "description": "A previous login from the source IP was investigated. No account compromise was established at that time."
+        },
+        {
+            "incident_id": "INC-004",
+            "username": "michael",
+            "event_type": "account_anomaly",
+            "severity": "medium",
+            "status": "closed",
+            "timestamp": "2026-09-15T03:00:00Z",
+            "source_ip": "203.0.113.88",
+            "description": "An earlier account-settings anomaly was investigated and determined to be legitimate."
+        },
+        {
+            "incident_id": "INC-005",
+            "username": "jordan",
+            "event_type": "unusual_login",
+            "severity": "low",
+            "status": "closed",
+            "timestamp": "2026-09-22T10:20:00Z",
+            "source_ip": "192.0.2.60",
+            "description": "A previous login from a known source was reviewed and determined to be legitimate."
+        },
+        {
+            "incident_id": "INC-006",
+            "username": "admin",
+            "event_type": "suspicious_login",
+            "severity": "high",
+            "status": "closed",
+            "timestamp": "2026-09-12T01:10:00Z",
+            "source_ip": "10.0.0.15",
+            "description": "A previous privileged-account authentication sequence from the source IP involved repeated failures and was escalated for review."
+        }
+    ]
 }

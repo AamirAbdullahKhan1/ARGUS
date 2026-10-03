@@ -41,7 +41,7 @@ def get_login_history(username: str, source_ip: str) -> dict:
     ]
 
     return {
-        "success": False,
+        "success": True,
         "username": username,
         "source_ip": source_ip,
         "total_events": len(matching_events),

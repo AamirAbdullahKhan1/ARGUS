@@ -1,84 +1,84 @@
 {
   "incidents": [
-    {
-      "incident_id": "INC-007",
-      "event_type": "suspicious_login",
-      "username": "admin",
-      "source_ip": "192.168.1.105",
-      "timestamp": "2026-09-29T09:30:00",
-      "description": "Multiple failed login attempts followed by a successful login.",
-      "severity": "high",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-008",
-      "event_type": "unusual_login",
-      "username": "john",
-      "source_ip": "192.168.1.110",
-      "timestamp": "2026-09-29T10:15:00",
-      "description": "Login detected from an unfamiliar IP address.",
-      "severity": "medium",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-009",
-      "event_type": "suspicious_login",
-      "username": "alex",
-      "source_ip": "203.0.113.45",
-      "timestamp": "2026-10-01T02:15:00Z",
-      "description": "A successful login occurred shortly after multiple failed authentication attempts. The user normally logs in during daytime hours.",
-      "severity": "high",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-010",
-      "event_type": "unusual_login",
-      "username": "sarah",
-      "source_ip": "198.51.100.27",
-      "timestamp": "2026-10-01T09:20:00Z",
-      "description": "A login was detected from an IP address with a suspicious reputation. The login used the correct credentials, and no failed attempts were recorded.",
-      "severity": "medium",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-011",
-      "event_type": "account_anomaly",
-      "username": "michael",
-      "source_ip": "203.0.113.88",
-      "timestamp": "2026-10-01T03:40:00Z",
-      "description": "A successful login was followed by an unusual account settings change. No failed login attempts were detected. The user has not confirmed whether the activity was legitimate.",
-      "severity": "high",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-012",
-      "event_type": "multiple_account_login",
-      "username": "unknown",
-      "source_ip": "198.51.100.90",
-      "timestamp": "2026-10-01T11:05:00Z",
-      "description": "Several user accounts authenticated from the same source IP within a short period. The source IP is associated with a corporate network, but the activity is unusually concentrated.",
-      "severity": "medium",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-013",
-      "event_type": "privileged_account_login",
-      "username": "admin",
-      "source_ip": "192.0.2.120",
-      "timestamp": "2026-10-01T10:30:00Z",
-      "description": "A privileged account logged in from a previously unseen IP address. Authentication succeeded, and no suspicious activity has been confirmed.",
-      "severity": "high",
-      "status": "new"
-    },
-    {
-      "incident_id": "INC-014",
-      "event_type": "suspicious_login",
-      "username": "jordan",
-      "source_ip": "203.0.113.150",
-      "timestamp": "2026-10-01T04:50:00Z",
-      "description": "An unusual login was detected. The authentication logs indicate a successful login, but the account activity service reports that no session was created. The source IP reputation service is unavailable.",
-      "severity": "medium",
-      "status": "new"
-    }
-  ]
+        {
+            "incident_id": "INC-007",
+            "event_type": "suspicious_login",
+            "username": "admin",
+            "source_ip": "192.0.2.120",
+            "timestamp": "2026-10-01T10:30:00Z",
+            "description": "A privileged account logged in successfully from a previously unseen source IP during normal business hours.",
+            "severity": "high",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-008",
+            "event_type": "unusual_login",
+            "username": "sarah",
+            "source_ip": "198.51.100.27",
+            "timestamp": "2026-10-01T09:20:00Z",
+            "description": "A successful login was detected from a source IP with a malicious reputation. No failed authentication attempts were observed.",
+            "severity": "high",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-009",
+            "event_type": "suspicious_login",
+            "username": "alex",
+            "source_ip": "203.0.113.45",
+            "timestamp": "2026-10-01T02:15:00Z",
+            "description": "Multiple failed authentication attempts were followed by a successful login outside the user's usual login hours.",
+            "severity": "high",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-010",
+            "event_type": "account_anomaly",
+            "username": "michael",
+            "source_ip": "203.0.113.88",
+            "timestamp": "2026-10-01T03:40:00Z",
+            "description": "A successful login was followed by an unusual account settings change. No failed authentication attempts were observed.",
+            "severity": "medium",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-011",
+            "event_type": "multiple_account_login",
+            "username": "unknown",
+            "source_ip": "198.51.100.90",
+            "timestamp": "2026-10-01T11:05:00Z",
+            "description": "Several user accounts authenticated from the same source IP within a short period. The source is associated with a known corporate network.",
+            "severity": "medium",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-012",
+            "event_type": "suspicious_login",
+            "username": "jordan",
+            "source_ip": "203.0.113.150",
+            "timestamp": "2026-10-01T04:50:00Z",
+            "description": "A successful login occurred outside the user's usual hours. Authentication succeeded, but the source IP reputation service is currently unavailable.",
+            "severity": "medium",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-013",
+            "event_type": "suspicious_login",
+            "username": "admin",
+            "source_ip": "10.0.0.15",
+            "timestamp": "2026-10-02T01:20:00Z",
+            "description": "Multiple failed login attempts were followed by a successful privileged-account login from an IP with a malicious reputation.",
+            "severity": "critical",
+            "status": "new"
+        },
+        {
+            "incident_id": "INC-014",
+            "event_type": "unusual_login",
+            "username": "sarah",
+            "source_ip": "192.0.2.44",
+            "timestamp": "2026-10-02T05:45:00Z",
+            "description": "A successful login occurred from a previously observed source IP outside the user's normal login hours. No failed attempts were recorded.",
+            "severity": "medium",
+            "status": "new"
+        }
+    ]
 }

@@ -1,89 +1,125 @@
 {
   "login_history": [
-    {
-      "username": "alex",
-      "events": [
         {
-          "timestamp": "2026-10-01T02:10:00Z",
-          "source_ip": "203.0.113.45",
-          "status": "failed",
-          "reason": "invalid_password"
+            "username": "alex",
+            "events": [
+                {
+                    "timestamp": "2026-10-01T02:10:00Z",
+                    "source_ip": "203.0.113.45",
+                    "status": "failed",
+                    "reason": "invalid_password"
+                },
+                {
+                    "timestamp": "2026-10-01T02:12:00Z",
+                    "source_ip": "203.0.113.45",
+                    "status": "failed",
+                    "reason": "invalid_password"
+                },
+                {
+                    "timestamp": "2026-10-01T02:15:00Z",
+                    "source_ip": "203.0.113.45",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-09-30T04:30:00Z",
+                    "source_ip": "192.0.2.70",
+                    "status": "success",
+                    "reason": null
+                }
+            ]
         },
         {
-          "timestamp": "2026-10-01T02:12:00Z",
-          "source_ip": "203.0.113.45",
-          "status": "failed",
-          "reason": "invalid_password"
+            "username": "sarah",
+            "events": [
+                {
+                    "timestamp": "2026-10-01T09:20:00Z",
+                    "source_ip": "198.51.100.27",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-09-30T10:05:00Z",
+                    "source_ip": "192.0.2.44",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-09-29T11:10:00Z",
+                    "source_ip": "192.0.2.44",
+                    "status": "success",
+                    "reason": null
+                }
+            ]
         },
         {
-          "timestamp": "2026-10-01T02:15:00Z",
-          "source_ip": "203.0.113.45",
-          "status": "success",
-          "reason": null
-        }
-      ]
-    },
-    {
-      "username": "sarah",
-      "events": [
-        {
-          "timestamp": "2026-10-01T09:20:00Z",
-          "source_ip": "198.51.100.27",
-          "status": "success",
-          "reason": null
+            "username": "michael",
+            "events": [
+                {
+                    "timestamp": "2026-10-01T03:40:00Z",
+                    "source_ip": "203.0.113.88",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-09-30T10:15:00Z",
+                    "source_ip": "192.0.2.55",
+                    "status": "success",
+                    "reason": null
+                }
+            ]
         },
         {
-          "timestamp": "2026-09-30T10:05:00Z",
-          "source_ip": "192.0.2.44",
-          "status": "success",
-          "reason": null
-        }
-      ]
-    },
-    {
-      "username": "michael",
-      "events": [
-        {
-          "timestamp": "2026-10-01T03:40:00Z",
-          "source_ip": "203.0.113.88",
-          "status": "success",
-          "reason": null
+            "username": "admin",
+            "events": [
+                {
+                    "timestamp": "2026-10-02T01:15:00Z",
+                    "source_ip": "10.0.0.15",
+                    "status": "failed",
+                    "reason": "invalid_password"
+                },
+                {
+                    "timestamp": "2026-10-02T01:17:00Z",
+                    "source_ip": "10.0.0.15",
+                    "status": "failed",
+                    "reason": "invalid_password"
+                },
+                {
+                    "timestamp": "2026-10-02T01:20:00Z",
+                    "source_ip": "10.0.0.15",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-10-01T10:30:00Z",
+                    "source_ip": "192.0.2.120",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-09-30T10:00:00Z",
+                    "source_ip": "192.0.2.60",
+                    "status": "success",
+                    "reason": null
+                }
+            ]
         },
         {
-          "timestamp": "2026-09-30T10:15:00Z",
-          "source_ip": "192.0.2.55",
-          "status": "success",
-          "reason": null
+            "username": "jordan",
+            "events": [
+                {
+                    "timestamp": "2026-10-01T04:50:00Z",
+                    "source_ip": "203.0.113.150",
+                    "status": "success",
+                    "reason": null
+                },
+                {
+                    "timestamp": "2026-09-30T10:30:00Z",
+                    "source_ip": "192.0.2.60",
+                    "status": "success",
+                    "reason": null
+                }
+            ]
         }
-      ]
-    },
-    {
-      "username": "admin",
-      "events": [
-        {
-          "timestamp": "2026-10-01T10:30:00Z",
-          "source_ip": "192.0.2.120",
-          "status": "success",
-          "reason": null
-        },
-        {
-          "timestamp": "2026-09-30T10:00:00Z",
-          "source_ip": "192.0.2.60",
-          "status": "success",
-          "reason": null
-        }
-      ]
-    },
-    {
-      "username": "jordan",
-      "events": [
-        {
-          "timestamp": "2026-10-01T04:50:00Z",
-          "source_ip": "203.0.113.150",
-          "status": "success",
-          "reason": null
-        }
-      ]
-    }
-  ]
+    ]
 }
