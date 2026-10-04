@@ -6,3 +6,19 @@ reputation labels:
 4. mailicious - strong evidence of mailicious reports
 5. unavaialble - could not determine
 
+Categories in IP Reputation:
+
+1. credential_stuffing
+2. brute_force
+3. credential_abuse
+4. bot_activity
+5. scanning
+6. phishing
+7. spam
+8. proxy
+9. vpn
+10. exploit
+
+IP Reputation Score Range => 0-100
+
+
