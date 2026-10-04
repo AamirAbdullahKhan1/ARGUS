@@ -40,34 +40,64 @@
                 },
                 {
                     "timestamp": "2026-09-30T10:05:00Z",
-                    "source_ip": "192.0.2.44",
+                    "source_ip": "198.51.100.27",
                     "status": "success",
                     "reason": null
                 },
                 {
                     "timestamp": "2026-09-29T11:10:00Z",
-                    "source_ip": "192.0.2.44",
+                    "source_ip": "198.51.100.27",
                     "status": "success",
                     "reason": null
                 }
             ]
         },
         {
-            "username": "michael",
-            "events": [
-                {
-                    "timestamp": "2026-10-01T03:40:00Z",
-                    "source_ip": "203.0.113.88",
-                    "status": "success",
-                    "reason": null
-                },
-                {
-                    "timestamp": "2026-09-30T10:15:00Z",
-                    "source_ip": "192.0.2.55",
-                    "status": "success",
-                    "reason": null
-                }
-            ]
+        "username": "michael",
+        "events": [
+            {
+            "timestamp": "2026-09-29T09:20:00Z",
+            "source_ip": "192.0.2.55",
+            "status": "success",
+            "reason": null
+            },
+            {
+            "timestamp": "2026-09-30T03:18:00Z",
+            "source_ip": "203.0.113.88",
+            "status": "failed",
+            "reason": "invalid_password"
+            },
+            {
+            "timestamp": "2026-09-30T03:19:00Z",
+            "source_ip": "203.0.113.88",
+            "status": "failed",
+            "reason": "invalid_password"
+            },
+            {
+            "timestamp": "2026-09-30T03:21:00Z",
+            "source_ip": "203.0.113.88",
+            "status": "success",
+            "reason": null
+            },
+            {
+            "timestamp": "2026-09-30T03:25:00Z",
+            "source_ip": "203.0.113.88",
+            "status": "success",
+            "reason": "unusual_account_activity"
+            },
+            {
+            "timestamp": "2026-09-30T10:15:00Z",
+            "source_ip": "192.0.2.55",
+            "status": "success",
+            "reason": null
+            },
+            {
+            "timestamp": "2026-10-01T03:40:00Z",
+            "source_ip": "203.0.113.88",
+            "status": "success",
+            "reason": null
+            }
+        ]
         },
         {
             "username": "admin",

@@ -1,0 +1,8 @@
+reputation labels: 
+
+1. clean - good 
+2. unknown - no useful rep available
+3. suspicious - some sus
+4. mailicious - strong evidence of mailicious reports
+5. unavaialble - could not determine
+

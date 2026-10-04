@@ -6,18 +6,16 @@
             "username": "admin",
             "source_ip": "192.0.2.120",
             "timestamp": "2026-10-01T10:30:00Z",
-            "description": "A privileged account logged in successfully from a previously unseen source IP during normal business hours.",
             "severity": "high",
             "status": "new"
         },
         {
             "incident_id": "INC-008",
-            "event_type": "unusual_login",
+            "event_type": "successful_login",
             "username": "sarah",
             "source_ip": "198.51.100.27",
             "timestamp": "2026-10-01T09:20:00Z",
-            "description": "A successful login was detected from a source IP with a malicious reputation. No failed authentication attempts were observed.",
-            "severity": "high",
+            "severity": "low",
             "status": "new"
         },
         {
@@ -26,7 +24,6 @@
             "username": "alex",
             "source_ip": "203.0.113.45",
             "timestamp": "2026-10-01T02:15:00Z",
-            "description": "Multiple failed authentication attempts were followed by a successful login outside the user's usual login hours.",
             "severity": "high",
             "status": "new"
         },
@@ -36,7 +33,6 @@
             "username": "michael",
             "source_ip": "203.0.113.88",
             "timestamp": "2026-10-01T03:40:00Z",
-            "description": "A successful login was followed by an unusual account settings change. No failed authentication attempts were observed.",
             "severity": "medium",
             "status": "new"
         },
@@ -46,7 +42,6 @@
             "username": "unknown",
             "source_ip": "198.51.100.90",
             "timestamp": "2026-10-01T11:05:00Z",
-            "description": "Several user accounts authenticated from the same source IP within a short period. The source is associated with a known corporate network.",
             "severity": "medium",
             "status": "new"
         },
@@ -56,7 +51,6 @@
             "username": "jordan",
             "source_ip": "203.0.113.150",
             "timestamp": "2026-10-01T04:50:00Z",
-            "description": "A successful login occurred outside the user's usual hours. Authentication succeeded, but the source IP reputation service is currently unavailable.",
             "severity": "medium",
             "status": "new"
         },
@@ -66,7 +60,6 @@
             "username": "admin",
             "source_ip": "10.0.0.15",
             "timestamp": "2026-10-02T01:20:00Z",
-            "description": "Multiple failed login attempts were followed by a successful privileged-account login from an IP with a malicious reputation.",
             "severity": "critical",
             "status": "new"
         },
@@ -76,7 +69,6 @@
             "username": "sarah",
             "source_ip": "192.0.2.44",
             "timestamp": "2026-10-02T05:45:00Z",
-            "description": "A successful login occurred from a previously observed source IP outside the user's normal login hours. No failed attempts were recorded.",
             "severity": "medium",
             "status": "new"
         }

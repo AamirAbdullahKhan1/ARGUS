@@ -10,11 +10,11 @@
         },
         {
             "ip": "198.51.100.27",
-            "reputation": "malicious",
-            "score": 91,
+            "reputation": "clean",
+            "score": 20,
             "reported": true,
-            "reports": 34,
-            "categories": ["credential_stuffing", "bot_activity"]
+            "reports": 4,
+            "categories": []
         },
         {
             "ip": "203.0.113.45",

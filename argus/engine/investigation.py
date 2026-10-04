@@ -300,7 +300,8 @@ class InvestigationEngine:
         if tool_name == "get_login_history":
             return {
                 "username": incident.get("username", ""),
-                "source_ip": incident.get("source_ip", "")
+                "incident_timestamp": incident.get("timestamp", ""),
+                "lookback_days": 7
             }
 
         if tool_name == "check_ip_reputation":
