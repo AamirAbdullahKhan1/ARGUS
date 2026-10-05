@@ -21,8 +21,8 @@
             "reputation": "suspicious",
             "score": 78,
             "reported": true,
-            "reports": 12,
-            "categories": ["brute_force", "credential_abuse"]
+            "reports": 18,
+            "categories": ["brute_force"]
         },
         {
             "ip": "203.0.113.88",

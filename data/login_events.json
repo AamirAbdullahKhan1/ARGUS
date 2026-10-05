@@ -4,6 +4,12 @@
             "username": "alex",
             "events": [
                 {
+                    "timestamp": "2026-09-30T04:30:00Z",
+                    "source_ip": "192.0.2.70",
+                    "status": "success",
+                    "reason": null
+                },
+                {
                     "timestamp": "2026-10-01T02:10:00Z",
                     "source_ip": "203.0.113.45",
                     "status": "failed",
@@ -16,14 +22,14 @@
                     "reason": "invalid_password"
                 },
                 {
-                    "timestamp": "2026-10-01T02:15:00Z",
+                    "timestamp": "2026-10-01T02:14:00Z",
                     "source_ip": "203.0.113.45",
-                    "status": "success",
-                    "reason": null
+                    "status": "failed",
+                    "reason": "invalid_password"
                 },
                 {
-                    "timestamp": "2026-09-30T04:30:00Z",
-                    "source_ip": "192.0.2.70",
+                    "timestamp": "2026-10-01T02:16:00Z",
+                    "source_ip": "203.0.113.45",
                     "status": "success",
                     "reason": null
                 }
